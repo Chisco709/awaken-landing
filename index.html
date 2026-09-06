@@ -19,7 +19,9 @@
 <body>
 
   <!-- NAV (contenido inyectado por js/modules/render.js desde data/nav.json) -->
-  <nav class="nav wrap nav__row" id="nav"></nav>
+  <nav class="nav" id="nav">
+  <div class="wrap nav__row" id="navInner"></div>
+  </nav>
 
   <!-- MENÚ MÓVIL -->
   <div class="mobile-menu" id="mobileMenu"></div>
@@ -33,7 +35,7 @@
 
     <div class="hero__sun-parallax" id="sunParallax">
       <button class="hero__sun-btn" id="sunBtn" aria-label="Toca para encender">
-        <img class="hero__sun" src="./assets/icons/image.png" alt="">
+        <img class="hero__sun" src="./assets/icons/sun.png" alt="">
       </button>
       <span class="hero__sun-hint" id="sunHint">toca para encender</span>
     </div>

@@ -50,7 +50,7 @@ function applyMeta(site) {
 export function renderSite(data) {
   applyMeta(data.site);
 
-  setContent("nav", renderNav(data.nav));
+  setContent("navInner", renderNav(data.nav));
   setContent("mobileMenu", renderMobileMenu(data.nav));
   setContent("heroCopy", renderHero(data.hero));
   setContent("manifesto", renderManifesto(data.manifesto));
