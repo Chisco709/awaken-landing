@@ -200,17 +200,38 @@
   border-radius: 28px;
   overflow: hidden;
   aspect-ratio: 4 / 5;
-  background:
-    radial-gradient(5px 5px at 18% 28%, rgba(255, 182, 72, 0.9), transparent 60%),
-    radial-gradient(3px 3px at 62% 14%, rgba(255, 246, 236, 0.85), transparent 60%),
-    radial-gradient(4px 4px at 78% 52%, rgba(255, 182, 72, 0.7), transparent 60%),
-    radial-gradient(3px 3px at 38% 68%, rgba(255, 246, 236, 0.6), transparent 60%),
-    radial-gradient(7px 7px at 88% 82%, rgba(200, 56, 10, 0.55), transparent 60%),
-    radial-gradient(4px 4px at 25% 85%, rgba(255, 182, 72, 0.55), transparent 60%),
-    linear-gradient(160deg, var(--dusk), var(--ember) 70%, var(--flame));
+
+  /* Se queda como fondo de respaldo mientras carga la imagen,
+     o si algún día quitas el <img> */
+  background: linear-gradient(160deg, var(--dusk), var(--ember) 70%, var(--flame));
+
   box-shadow:
     inset 0 0 60px rgba(0, 0, 0, 0.35),
     0 24px 60px rgba(200, 56, 10, 0.22);
+}
+
+.encounters__art img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Velo cálido encima de la foto, para que se sienta parte
+   de la paleta de la marca en vez de una imagen "pegada" */
+.encounters__art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    160deg,
+    rgba(26, 14, 8, 0.35) 0%,
+    rgba(200, 56, 10, 0.12) 55%,
+    rgba(245, 116, 29, 0.08) 100%
+  );
+  pointer-events: none;
 }
 
 /* ---------- JOIN ---------- */
