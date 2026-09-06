@@ -1,4 +1,60 @@
 /* ==========================================================================
+   HERO — CONTENEDOR PRINCIPAL
+   ========================================================================== */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+
+  min-height: 100vh;
+
+  display: flex;
+  align-items: stretch;
+
+  background: linear-gradient(
+    180deg,
+    var(--dusk) 0%,
+    #2a1408 55%,
+    var(--ember) 100%
+  );
+}
+
+/* ==========================================================================
+   COLINAS DE FONDO
+   ========================================================================== */
+
+.hero__hills {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+}
+
+.hero__hills--far {
+  bottom: 0;
+  z-index: 1;
+  opacity: 0.85;
+}
+
+.hero__hills--near {
+  bottom: -1px;
+  z-index: 3;
+}
+
+/* ==========================================================================
+   CANVAS DE BRASAS
+   ========================================================================== */
+
+.hero__embers {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ==========================================================================
    SOL / LLAMA INTERACTIVA
    ========================================================================== */
 
@@ -330,20 +386,6 @@
 }
 
 /* ==========================================================================
-   ACCESIBILIDAD
-   ========================================================================== */
-
-@media (prefers-reduced-motion: reduce) {
-  .hero__sun,
-  .hero__sun-btn::before,
-  .hero__sun-hint,
-  .ripple {
-    animation: none;
-    transition: none;
-  }
-}
-
-/* ==========================================================================
    CONTENIDO DEL HERO
    ========================================================================== */
 
@@ -519,20 +561,10 @@
   }
 }
 
-
 /* ==========================================================================
    ACCESIBILIDAD
    ========================================================================== */
 
-.hero__sun-btn:focus-visible {
-  outline:
-    3px solid var(--cream);
-
-  outline-offset:
-    8px;
-}
-
-/* Evita animaciones excesivas si el usuario lo solicita */
 @media (prefers-reduced-motion: reduce) {
   .hero__sun,
   .hero__sun-btn::before,
