@@ -24,12 +24,14 @@
   bottom: 0;
   width: 100%;
 }
+
 .hero__hills--far {
   z-index: 1;
   opacity: 0.55;
   transform: translateY(0);
   height: 26vh;
 }
+
 .hero__hills--near {
   z-index: 3;
   height: 16vh;
@@ -44,6 +46,10 @@
   height: 100%;
 }
 
+/* ==========================================================================
+   SOL / LLAMA INTERACTIVA
+   ========================================================================== */
+
 .hero__sun-parallax {
   position: absolute;
   top: 16%;
@@ -57,6 +63,7 @@
   will-change: transform;
 }
 
+/* Botón */
 .hero__sun-btn {
   background: none;
   border: none;
@@ -64,12 +71,11 @@
   cursor: pointer;
   border-radius: 50%;
   position: relative;
-}
-.hero__sun-btn:focus-visible {
-  outline: 3px solid var(--cream);
-  outline-offset: 8px;
+  isolation: isolate;
+  -webkit-tap-highlight-color: transparent;
 }
 
+/* Área de luz alrededor de la llama */
 .hero__sun-btn::before {
   content: "";
   position: absolute;
@@ -82,44 +88,134 @@
     rgba(245, 116, 29, 0) 72%
   );
   opacity: 0;
-  animation: glowPulse 5s ease-in-out 1.6s infinite;
+  transform: scale(0.75);
+  z-index: -1;
+  pointer-events: none;
 }
 
+/* Luz intensa cuando está encendida */
+.hero__sun-btn.is-on::before {
+  opacity: 1;
+  transform: scale(1);
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+/* Estado apagado */
+.hero__sun-btn.is-off::before {
+  opacity: 0;
+  animation: none;
+}
+
+/* Imagen / llama */
 .hero__sun {
   width: 100%;
   opacity: 0;
-  animation: sunRise 1.3s cubic-bezier(0.22, 0.9, 0.32, 1) 0.2s forwards;
+
+  animation:
+    sunRise 1.3s cubic-bezier(0.22, 0.9, 0.32, 1) 0.2s forwards;
+
   position: relative;
   z-index: 1;
-  transition: transform 0.5s cubic-bezier(0.2, 1.6, 0.4, 1);
+
+  transform-origin: center bottom;
+
+  transition:
+    transform 0.5s cubic-bezier(0.2, 1.6, 0.4, 1),
+    filter 0.35s ease,
+    opacity 0.35s ease;
 }
+
+/* Hover */
 .hero__sun-btn:hover .hero__sun {
   transform: scale(1.04);
 }
+
+/* Encendida */
+.hero__sun-btn.is-on .hero__sun {
+  filter:
+    brightness(1.12)
+    drop-shadow(0 0 10px rgba(255, 217, 140, 0.45));
+}
+
+/* Llama apagada */
+.hero__sun-btn.is-off .hero__sun {
+  filter: brightness(0.55);
+  opacity: 0.72;
+}
+
+/* Animación especial al encender */
 .hero__sun-btn.is-igniting .hero__sun {
   animation: ignitePulse 0.7s ease;
 }
+
+/* Animación especial al apagar */
+.hero__sun-btn.is-extinguishing .hero__sun {
+  animation: extinguishPulse 0.45s ease;
+}
+
+/* Estado activo: pequeña respiración de la llama */
+.hero__sun-btn.is-on .hero__sun {
+  animation:
+    flameBreath 2.8s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   INDICADOR / TEXTO
+   ========================================================================== */
 
 .hero__sun-hint {
   font-size: 0.82rem;
   color: rgba(255, 246, 236, 0.75);
   letter-spacing: 0.02em;
   opacity: 0;
-  animation: riseIn 1s ease 1.5s forwards;
+
+  animation:
+    riseIn 1s ease 1.5s forwards;
+
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
+
+/* Cambia ligeramente cuando está encendido */
+.hero__sun-btn.is-on + .hero__sun-hint {
+  color: rgba(255, 246, 236, 0.92);
+}
+
+/* ==========================================================================
+   RIPPLE — onda al hacer clic
+   ========================================================================== */
 
 .ripple {
   position: absolute;
   border-radius: 50%;
   border: 2px solid rgba(255, 246, 236, 0.85);
+
   left: 50%;
   top: 50%;
+
   width: 20px;
   height: 20px;
+
   transform: translate(-50%, -50%);
+
   pointer-events: none;
-  animation: rippleOut 0.9s ease-out forwards;
+
+  animation:
+    rippleOut 0.9s ease-out forwards;
+
+  z-index: 5;
 }
+
+/* Segunda onda */
+.ripple:nth-of-type(2) {
+  animation-delay: 0.12s;
+  opacity: 0.5;
+}
+
+/* ==========================================================================
+   ANIMACIONES
+   ========================================================================== */
 
 @keyframes rippleOut {
   from {
@@ -127,23 +223,85 @@
     height: 20px;
     opacity: 0.9;
   }
+
   to {
     width: 340%;
     height: 340%;
     opacity: 0;
   }
 }
+
 @keyframes ignitePulse {
   0% {
     filter: brightness(1);
+    transform: scale(0.94);
   }
+
   35% {
-    filter: brightness(1.5);
+    filter:
+      brightness(1.6)
+      drop-shadow(0 0 24px rgba(255, 217, 140, 0.85));
+
+    transform: scale(1.12);
   }
+
+  65% {
+    transform: scale(0.98);
+  }
+
   100% {
-    filter: brightness(1);
+    filter:
+      brightness(1.12)
+      drop-shadow(0 0 10px rgba(255, 217, 140, 0.45));
+
+    transform: scale(1);
   }
 }
+
+@keyframes extinguishPulse {
+  0% {
+    filter: brightness(1.12);
+    transform: scale(1);
+  }
+
+  45% {
+    filter: brightness(0.35);
+    transform: scale(0.9);
+  }
+
+  100% {
+    filter: brightness(0.55);
+    transform: scale(1);
+  }
+}
+
+@keyframes flameBreath {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.025);
+  }
+}
+
+@keyframes glowPulse {
+  0%,
+  100% {
+    opacity: 0.65;
+    transform: scale(0.96);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+
+/* ==========================================================================
+   CONTENIDO DEL HERO
+   ========================================================================== */
 
 .hero__content-parallax {
   position: relative;
@@ -157,6 +315,7 @@
 .hero__grid {
   width: 100%;
 }
+
 .hero__copy {
   max-width: 620px;
   padding: 120px 0 60px;
@@ -168,16 +327,27 @@
   font-size: 0.95rem;
   color: var(--gold);
   font-weight: 600;
+
   opacity: 0;
-  animation: riseIn 0.9s ease 0.35s forwards;
+
+  animation:
+    riseIn 0.9s ease 0.35s forwards;
 }
+
 .hero__kicker span {
   display: inline-block;
   color: var(--cream);
-  border-bottom: 1.5px solid rgba(255, 246, 236, 0.5);
+
+  border-bottom:
+    1.5px solid rgba(255, 246, 236, 0.5);
+
   min-width: 7ch;
-  transition: opacity 0.35s ease, transform 0.35s ease;
+
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
 }
+
 .hero__kicker span.is-swapping {
   opacity: 0;
   transform: translateY(6px);
@@ -185,54 +355,91 @@
 
 .hero__title {
   margin-top: 18px;
-  font-size: clamp(2.3rem, 5.6vw, 4.1rem);
+
+  font-size:
+    clamp(2.3rem, 5.6vw, 4.1rem);
+
   color: var(--cream);
   font-weight: 700;
+
   opacity: 0;
-  animation: riseIn 1s ease 0.5s forwards;
+
+  animation:
+    riseIn 1s ease 0.5s forwards;
 }
 
 .hero__sub {
   margin: 24px 0 0;
+
   max-width: 46ch;
+
   font-size: 1.1rem;
   line-height: 1.55;
+
   color: rgba(255, 246, 236, 0.92);
+
   opacity: 0;
-  animation: riseIn 1s ease 0.7s forwards;
+
+  animation:
+    riseIn 1s ease 0.7s forwards;
 }
 
 .hero__actions {
   margin-top: 34px;
+
   display: flex;
   gap: 16px;
+
   flex-wrap: wrap;
+
   opacity: 0;
-  animation: riseIn 1s ease 0.9s forwards;
+
+  animation:
+    riseIn 1s ease 0.9s forwards;
 }
+
+/* ==========================================================================
+   SCROLL
+   ========================================================================== */
 
 .hero__scroll {
   position: absolute;
+
   bottom: 26px;
   left: 50%;
+
   transform: translateX(-50%);
+
   width: 22px;
   height: 34px;
-  border: 2px solid rgba(255, 246, 236, 0.7);
+
+  border:
+    2px solid rgba(255, 246, 236, 0.7);
+
   border-radius: 12px;
+
   z-index: 5;
 }
+
 .hero__scroll::after {
   content: "";
+
   position: absolute;
+
   top: 6px;
   left: 50%;
+
   width: 4px;
   height: 4px;
+
   background: var(--cream);
+
   border-radius: 50%;
+
   transform: translateX(-50%);
-  animation: scrollDot 1.8s ease infinite;
+
+  animation:
+    scrollDot 1.8s ease infinite;
 }
 
 @keyframes scrollDot {
@@ -240,41 +447,69 @@
     top: 6px;
     opacity: 1;
   }
+
   70% {
     top: 18px;
     opacity: 0;
   }
+
   100% {
     top: 18px;
     opacity: 0;
   }
 }
+
+/* ==========================================================================
+   ENTRADAS
+   ========================================================================== */
+
 @keyframes riseIn {
   from {
     opacity: 0;
     transform: translateY(22px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
+
 @keyframes sunRise {
   from {
     opacity: 0;
-    transform: translateY(30px) scale(0.85);
+    transform:
+      translateY(30px)
+      scale(0.85);
   }
+
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform:
+      translateY(0)
+      scale(1);
   }
 }
-@keyframes glowPulse {
-  0%,
-  100% {
-    opacity: 0.65;
-  }
-  50% {
-    opacity: 1;
+
+/* ==========================================================================
+   ACCESIBILIDAD
+   ========================================================================== */
+
+.hero__sun-btn:focus-visible {
+  outline:
+    3px solid var(--cream);
+
+  outline-offset:
+    8px;
+}
+
+/* Evita animaciones excesivas si el usuario lo solicita */
+@media (prefers-reduced-motion: reduce) {
+  .hero__sun,
+  .hero__sun-btn::before,
+  .hero__sun-hint,
+  .ripple {
+    animation: none;
+    transition: none;
   }
 }
