@@ -33,12 +33,7 @@
 
     <canvas class="hero__embers" id="emberCanvas"></canvas>
 
-    <div class="hero__sun-parallax" id="sunParallax">
-      <button class="hero__sun-btn" id="sunBtn" aria-label="Toca para encender">
-        <img class="hero__sun" src="./assets/icons/sun.svg" alt="">
-      </button>
-      <span class="hero__sun-hint" id="sunHint">toca para encender</span>
-    </div>
+    <div class="hero__sun-parallax" id="sunParallax"> <button class="hero__sun-btn is-on" id="sunBtn" type="button" aria-label="Apagar la llama" aria-pressed="true" > <img class="hero__sun" src="./assets/icons/sun.svg" alt="" > </button> <span class="hero__sun-hint" id="sunHint" > toca para apagar </span> </div>
 
     <img class="hero__hills hero__hills--near" src="./assets/icons/hills-near.svg" alt="" aria-hidden="true">
 
@@ -92,5 +87,6 @@
   </noscript>
 
   <script type="module" src="./js/main.js"></script>
+  <script src="./js/hero-sun.js"></script>
 </body>
 </html>

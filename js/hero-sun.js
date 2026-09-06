@@ -1,52 +1,118 @@
 /* ==========================================================================
-   HERO SUN — encendido / apagado
+   HERO SUN — SOL / LLAMA INTERACTIVA
    ========================================================================== */
 
-const sunButton = document.querySelector(".hero__sun-btn");
+document.addEventListener("DOMContentLoaded", () => {
+  const sunBtn = document.getElementById("sunBtn");
+  const sunHint = document.getElementById("sunHint");
 
-if (sunButton) {
-  sunButton.setAttribute("aria-pressed", "true");
-  sunButton.setAttribute("aria-label", "Apagar la llama");
+  // Si el HTML no tiene el botón, no hacemos nada
+  if (!sunBtn) return;
 
-  sunButton.classList.add("is-on");
+  /* ------------------------------------------------------------------------
+     CONFIGURACIÓN INICIAL
+     ------------------------------------------------------------------------ */
 
-  sunButton.addEventListener("click", () => {
-    const isOn = sunButton.classList.contains("is-on");
+  // El sol comienza encendido
+  sunBtn.classList.add("is-on");
 
-    /* Crear ondas */
+  sunBtn.setAttribute("aria-pressed", "true");
+  sunBtn.setAttribute("aria-label", "Apagar la llama");
+
+  if (sunHint) {
+    sunHint.textContent = "toca para apagar";
+  }
+
+  /* ------------------------------------------------------------------------
+     FUNCIÓN: CREAR RIPPLE
+     ------------------------------------------------------------------------ */
+
+  function createRipple() {
     const ripple = document.createElement("span");
+
     ripple.className = "ripple";
 
-    sunButton.appendChild(ripple);
+    sunBtn.appendChild(ripple);
 
     setTimeout(() => {
       ripple.remove();
     }, 900);
+  }
 
-    /* Encender */
-    if (!isOn) {
-      sunButton.classList.remove("is-off");
-      sunButton.classList.add("is-on", "is-igniting");
+  /* ------------------------------------------------------------------------
+     FUNCIÓN: ACTUALIZAR ACCESIBILIDAD
+     ------------------------------------------------------------------------ */
 
-      sunButton.setAttribute("aria-pressed", "true");
-      sunButton.setAttribute("aria-label", "Apagar la llama");
+  function updateAccessibility(isOn) {
+    sunBtn.setAttribute("aria-pressed", String(isOn));
 
+    if (isOn) {
+      sunBtn.setAttribute("aria-label", "Apagar la llama");
+
+      if (sunHint) {
+        sunHint.textContent = "toca para apagar";
+      }
+    } else {
+      sunBtn.setAttribute("aria-label", "Encender la llama");
+
+      if (sunHint) {
+        sunHint.textContent = "toca para encender";
+      }
+    }
+  }
+
+  /* ------------------------------------------------------------------------
+     CLICK — ENCENDER / APAGAR
+     ------------------------------------------------------------------------ */
+
+  sunBtn.addEventListener("click", () => {
+    const isOn = sunBtn.classList.contains("is-on");
+
+    // Efecto de onda
+    createRipple();
+
+    /* ======================================================================
+       APAGAR
+       ====================================================================== */
+
+    if (isOn) {
+      sunBtn.classList.remove("is-on");
+      sunBtn.classList.add("is-off", "is-extinguishing");
+
+      updateAccessibility(false);
+
+      // Quitamos la clase de animación después de ejecutarla
       setTimeout(() => {
-        sunButton.classList.remove("is-igniting");
-      }, 700);
+        sunBtn.classList.remove("is-extinguishing");
+      }, 500);
 
       return;
     }
 
-    /* Apagar */
-    sunButton.classList.remove("is-on");
-    sunButton.classList.add("is-off", "is-extinguishing");
+    /* ======================================================================
+       ENCENDER
+       ====================================================================== */
 
-    sunButton.setAttribute("aria-pressed", "false");
-    sunButton.setAttribute("aria-label", "Encender la llama");
+    sunBtn.classList.remove("is-off");
+    sunBtn.classList.add("is-on", "is-igniting");
 
+    updateAccessibility(true);
+
+    // Quitamos la clase de animación después de ejecutarla
     setTimeout(() => {
-      sunButton.classList.remove("is-extinguishing");
-    }, 450);
+      sunBtn.classList.remove("is-igniting");
+    }, 700);
   });
-}
+
+  /* ------------------------------------------------------------------------
+     TECLADO — ENTER / ESPACIO
+     ------------------------------------------------------------------------ */
+
+  sunBtn.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      sunBtn.click();
+    }
+  });
+
+});
