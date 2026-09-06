@@ -2,6 +2,48 @@
    RESPONSIVE — puntos de quiebre y preferencias de accesibilidad
    ========================================================================== */
 
+/* ==========================================================================
+   RESPONSIVE — diseño mobile propio (no solo "encoger" el desktop)
+   ========================================================================== */
+
+/* Espaciado vertical fluido: en desktop los valores fijos (120px, 130px...)
+   se sienten bien, pero en mobile dejan demasiado vacío. Aquí escalan con
+   el viewport en vez de saltar bruscamente entre breakpoints. */
+.manifesto {
+  padding: clamp(64px, 14vw, 120px) 0 clamp(48px, 10vw, 100px);
+}
+.pillars {
+  padding: clamp(40px, 8vw, 60px) 0 clamp(64px, 14vw, 130px);
+}
+.stats {
+  padding: clamp(48px, 10vw, 84px) 0;
+}
+.encounters {
+  padding: clamp(56px, 12vw, 120px) 0;
+}
+.join {
+  padding: clamp(64px, 13vw, 120px) 0;
+}
+.site-footer {
+  padding: clamp(28px, 5vw, 40px) 0;
+}
+
+/* Soporte para muescas/isla dinámica en iOS */
+.nav,
+.mobile-menu,
+.site-footer__row {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* Feedback táctil: sin :hover en touch, así que los botones necesitan
+   su propia respuesta al presionar. */
+@media (hover: none) {
+  .btn:active {
+    transform: scale(0.97);
+  }
+}
+
 @media (max-width: 880px) {
   .nav__links {
     display: none;
@@ -9,34 +51,24 @@
   .nav__burger {
     display: flex;
   }
-  .encounters {
-    grid-template-columns: 1fr;
-  }
-  .encounters__art {
-    aspect-ratio: 16 / 10;
-    order: -1;
-  }
-  .stats__grid {
-    grid-template-columns: 1fr;
-    gap: 28px;
-  }
-  .flames {
-    flex-wrap: wrap;
-    row-gap: 40px;
-  }
-  .flame-item {
-    flex: 1 1 40%;
-  }
 
+  /* ---- Hero: layout propio para pantallas angostas ---- */
+  .hero {
+    min-height: 100dvh;
+  }
+  .hero__content-parallax {
+    min-height: 100dvh;
+    align-items: flex-end;
+  }
   .hero__sun-parallax {
-    top: 8%;
+    top: 9%;
     right: 50%;
     transform: translateX(50%) !important;
-    width: 46vw;
-    max-width: 220px;
+    width: 42vw;
+    max-width: 190px;
   }
   .hero__copy {
-    padding: 46svh 0 60px;
+    padding: 0 0 clamp(56px, 10vh, 90px);
     text-align: center;
     margin: 0 auto;
   }
@@ -44,19 +76,90 @@
     justify-content: center;
     width: 100%;
   }
-  .hero__actions {
-    justify-content: center;
+  .hero__title {
+    font-size: clamp(2.1rem, 8vw, 2.8rem);
   }
   .hero__sub {
     margin-left: auto;
     margin-right: auto;
+    font-size: 1.02rem;
+  }
+  .hero__actions {
+    justify-content: center;
+  }
+
+  /* ---- Encuentros: arte arriba, copy abajo ---- */
+  .encounters {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .encounters__art {
+    aspect-ratio: 16 / 10;
+    order: -1;
+  }
+
+  /* ---- Estadísticas: se apilan con jerarquía clara ---- */
+  .stats__grid {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+
+  /* ---- Pilares: de grilla apretada a lista con ícono a la izquierda ---- */
+  .flames {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    border-bottom: none;
+    padding: 0;
+  }
+  .flame-item {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    column-gap: 18px;
+    align-items: start;
+    text-align: left;
+    padding: 22px 0;
+    border-bottom: 1px solid rgba(42, 20, 8, 0.12);
+  }
+  .flame-item:first-child {
+    padding-top: 0;
+  }
+  .flame-item:last-child {
+    border-bottom: none;
+  }
+  .flame-item img,
+  .flame-item svg {
+    grid-row: 1 / 3;
+    width: 60px;
+    max-width: 60px;
+    height: 60px !important;
+    margin-top: 2px;
+  }
+  .flame-item h3 {
+    grid-column: 2;
+    margin-top: 0;
+    font-size: 1.08rem;
+  }
+  .flame-item p {
+    grid-column: 2;
+    max-width: none;
   }
 }
 
 @media (max-width: 520px) {
   .wrap {
-    padding: 0 22px;
+    padding: 0 20px;
   }
+
+  .hero__title {
+    font-size: clamp(1.95rem, 9vw, 2.4rem);
+  }
+  .hero__sun-parallax {
+    width: 38vw;
+    max-width: 150px;
+    top: 7%;
+  }
+
   .hero__actions {
     flex-direction: column;
     align-items: stretch;
@@ -64,8 +167,42 @@
   .hero__actions .btn {
     justify-content: center;
   }
+
+  .join__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .join__actions .btn {
+    justify-content: center;
+  }
+
+  .join::before {
+    width: 380px;
+    height: 380px;
+    top: -140px;
+    right: -120px;
+  }
+
   .flame-item {
-    flex: 1 1 100%;
+    grid-template-columns: 52px 1fr;
+    column-gap: 14px;
+    padding: 18px 0;
+  }
+  .flame-item img,
+  .flame-item svg {
+    width: 52px;
+    max-width: 52px;
+    height: 52px !important;
+  }
+
+  .stats__item {
+    padding-left: 18px;
+  }
+
+  .site-footer__row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
   }
 }
 
