@@ -66,6 +66,20 @@
     transform: translateX(50%) !important;
     width: 42vw;
     max-width: 190px;
+
+    /* Bug de capas: .hero__hills--near tiene z-index:3 en hero.css,
+       más alto que el z-index:2 del sol. En desktop no se nota porque
+       no se superponen visualmente, pero en mobile el sol se reposiciona
+       arriba y queda tapado por las colinas. Lo subimos por encima de todo. */
+    z-index: 6;
+  }
+  .hero__sun-btn {
+    /* Evita el retraso de ~300ms al tocar y el menú de "mantener presionado"
+       de iOS/Android, que hacían sentir el toggle trabado o poco receptivo */
+    touch-action: manipulation;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
   }
   .hero__copy {
     padding: 0 0 clamp(56px, 10vh, 90px);
@@ -88,20 +102,68 @@
     justify-content: center;
   }
 
-  /* ---- Encuentros: arte arriba, copy abajo ---- */
+  /* ---- Costura entre secciones: una línea cálida y sutil en vez de
+     un corte de color abrupto. Solo en mobile: es un recurso propio
+     de este layout, no una copia reducida del desktop. ---- */
+  .manifesto,
+  .pillars,
+  .stats,
+  .encounters {
+    position: relative;
+  }
+  .manifesto::before,
+  .pillars::before,
+  .stats::before,
+  .encounters::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(140px, 55%);
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(245, 116, 29, 0.5),
+      transparent
+    );
+  }
+
+  /* ---- Encuentros: arte arriba a sangre completa (edge-to-edge),
+     copy abajo. Full-bleed en vez de tarjeta flotante: se siente
+     hecho para mobile, no un desktop encogido. ---- */
   .encounters {
     grid-template-columns: 1fr;
-    gap: 36px;
+    gap: 44px;
   }
   .encounters__art {
     aspect-ratio: 16 / 10;
     order: -1;
+    margin-left: -32px;
+    margin-right: -32px;
+    border-radius: 0;
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.35);
   }
 
-  /* ---- Estadísticas: se apilan con jerarquía clara ---- */
+  /* ---- Estadísticas: apiladas como lista, con líneas divisorias
+     completas en vez del borde izquierdo (que se ve raro en columna) ---- */
   .stats__grid {
     grid-template-columns: 1fr;
-    gap: 26px;
+    gap: 0;
+  }
+  .stats__item {
+    border-left: none;
+    padding-left: 0;
+    padding: 22px 0;
+    border-bottom: 1px solid rgba(255, 246, 236, 0.25);
+  }
+  .stats__item:first-child {
+    padding-top: 0;
+  }
+  .stats__item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
   }
 
   /* ---- Pilares: de grilla apretada a lista con ícono a la izquierda ---- */
@@ -120,6 +182,9 @@
     text-align: left;
     padding: 22px 0;
     border-bottom: 1px solid rgba(42, 20, 8, 0.12);
+  }
+  .flame-item::after {
+    display: none;
   }
   .flame-item:first-child {
     padding-top: 0;
@@ -183,6 +248,13 @@
     right: -120px;
   }
 
+  /* El .wrap pasa de 32px a 20px de padding en este breakpoint,
+     así que el sangrado del arte de Encuentros debe ajustarse igual */
+  .encounters__art {
+    margin-left: -20px;
+    margin-right: -20px;
+  }
+
   .flame-item {
     grid-template-columns: 52px 1fr;
     column-gap: 14px;
@@ -193,10 +265,6 @@
     width: 52px;
     max-width: 52px;
     height: 52px !important;
-  }
-
-  .stats__item {
-    padding-left: 18px;
   }
 
   .site-footer__row {
