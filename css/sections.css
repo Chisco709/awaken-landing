@@ -13,9 +13,22 @@
   text-align: center;
 }
 .manifesto__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-size: 0.95rem;
   color: var(--ember);
   font-weight: 600;
+}
+.manifesto__label::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  flex-shrink: 0;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(45deg);
+  background: radial-gradient(circle at 30% 30%, var(--gold), var(--ember));
+  box-shadow: 0 0 8px rgba(245, 116, 29, 0.5);
 }
 .manifesto__text {
   margin-top: 22px;
@@ -24,6 +37,7 @@
   font-weight: 500;
   line-height: 1.35;
   color: var(--ink);
+  text-wrap: balance;
 }
 .manifesto__text em {
   font-style: normal;
@@ -42,6 +56,7 @@
 .pillars__head h2 {
   font-size: clamp(1.9rem, 3.6vw, 2.7rem);
   color: var(--ink);
+  text-wrap: balance;
 }
 .pillars__head p {
   margin-top: 16px;
@@ -58,17 +73,44 @@
   border-bottom: 1.5px solid rgba(42, 20, 8, 0.14);
 }
 .flame-item {
+  position: relative;
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
 }
+
+/* Divisores sutiles entre columnas — solo en desktop,
+   en mobile responsive.css cambia el layout a columna y esto no debe verse */
+@media (min-width: 881px) {
+  .flame-item:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    right: -12px;
+    top: 15%;
+    bottom: 15%;
+    width: 1px;
+    background: linear-gradient(
+      180deg,
+      transparent,
+      rgba(42, 20, 8, 0.16),
+      transparent
+    );
+  }
+}
+
 .flame-item img,
 .flame-item svg {
   width: 100%;
   max-width: 118px;
   height: auto;
+  transition: filter 0.35s ease, transform 0.35s ease;
+}
+.flame-item:hover img,
+.flame-item:hover svg {
+  filter: drop-shadow(0 10px 22px rgba(245, 116, 29, 0.4));
+  transform: translateY(-4px);
 }
 .flame-item h3 {
   margin-top: 22px;
@@ -85,7 +127,9 @@
 
 /* ---------- ESTADÍSTICAS ---------- */
 .stats {
-  background: linear-gradient(120deg, var(--ember), var(--flame) 60%, var(--gold));
+  background:
+    radial-gradient(120% 140% at 12% -10%, rgba(255, 255, 255, 0.18), transparent 55%),
+    linear-gradient(120deg, var(--ember), var(--flame) 60%, var(--gold));
   padding: 84px 0;
 }
 .stats__grid {
@@ -95,7 +139,7 @@
 }
 .stats__item {
   text-align: left;
-  border-left: 2px solid rgba(255, 246, 236, 0.4);
+  border-left: 2px solid rgba(255, 246, 236, 0.45);
   padding-left: 22px;
 }
 .stats__num {
@@ -103,6 +147,7 @@
   font-size: clamp(2.1rem, 4.2vw, 3.1rem);
   color: var(--cream);
   font-weight: 700;
+  font-variant-numeric: tabular-nums;
 }
 .stats__label {
   margin-top: 8px;
@@ -123,6 +168,7 @@
 .encounters h2 {
   font-size: clamp(1.9rem, 3.6vw, 2.7rem);
   color: var(--ink);
+  text-wrap: balance;
 }
 .encounters p {
   margin-top: 20px;
@@ -153,8 +199,18 @@
   position: relative;
   border-radius: 28px;
   overflow: hidden;
-  background: linear-gradient(160deg, var(--dusk), var(--ember) 70%, var(--flame));
   aspect-ratio: 4 / 5;
+  background:
+    radial-gradient(5px 5px at 18% 28%, rgba(255, 182, 72, 0.9), transparent 60%),
+    radial-gradient(3px 3px at 62% 14%, rgba(255, 246, 236, 0.85), transparent 60%),
+    radial-gradient(4px 4px at 78% 52%, rgba(255, 182, 72, 0.7), transparent 60%),
+    radial-gradient(3px 3px at 38% 68%, rgba(255, 246, 236, 0.6), transparent 60%),
+    radial-gradient(7px 7px at 88% 82%, rgba(200, 56, 10, 0.55), transparent 60%),
+    radial-gradient(4px 4px at 25% 85%, rgba(255, 182, 72, 0.55), transparent 60%),
+    linear-gradient(160deg, var(--dusk), var(--ember) 70%, var(--flame));
+  box-shadow:
+    inset 0 0 60px rgba(0, 0, 0, 0.35),
+    0 24px 60px rgba(200, 56, 10, 0.22);
 }
 
 /* ---------- JOIN ---------- */
@@ -173,6 +229,15 @@
   top: -220px;
   right: -160px;
 }
+.join::after {
+  content: "";
+  position: absolute;
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(circle, rgba(255, 182, 72, 0.16), transparent 70%);
+  bottom: -160px;
+  left: -100px;
+}
 .join__inner {
   position: relative;
   max-width: 640px;
@@ -180,6 +245,7 @@
 .join h2 {
   font-size: clamp(2rem, 4.4vw, 3rem);
   color: var(--cream);
+  text-wrap: balance;
 }
 .join p {
   margin-top: 20px;
@@ -207,12 +273,31 @@
   height: 8px;
   border-radius: 50%;
   background: var(--flame);
+  box-shadow: 0 0 0 0 rgba(245, 116, 29, 0.55);
+  animation: emberPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes emberPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(245, 116, 29, 0.55);
+  }
+  50% {
+    box-shadow: 0 0 0 7px rgba(245, 116, 29, 0);
+  }
 }
 
 /* ---------- FOOTER ---------- */
 .site-footer {
   background: var(--dusk);
-  border-top: 1px solid rgba(255, 246, 236, 0.12);
+  border-top: 1px solid transparent;
+  border-image: linear-gradient(
+      90deg,
+      transparent,
+      rgba(245, 116, 29, 0.4),
+      transparent
+    )
+    1;
   padding: 40px 0;
 }
 .site-footer__row {
@@ -238,4 +323,11 @@
 .site-footer__copy {
   color: rgba(255, 246, 236, 0.5);
   font-size: 0.88rem;
+}
+
+/* ---------- ACCESIBILIDAD ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .join__handle .dot {
+    animation: none;
+  }
 }
