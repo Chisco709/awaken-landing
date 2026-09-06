@@ -1,52 +1,4 @@
 /* ==========================================================================
-   HERO — cabecera animada con sol interactivo, colinas y partículas
-   ========================================================================== */
-
-.hero {
-  position: relative;
-  min-height: 100svh;
-  overflow: hidden;
-  background: linear-gradient(
-    180deg,
-    var(--dusk) 0%,
-    var(--dusk) 24%,
-    var(--ember) 52%,
-    var(--flame) 72%,
-    var(--gold) 90%,
-    var(--cream) 100%
-  );
-}
-
-.hero__hills {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-}
-
-.hero__hills--far {
-  z-index: 1;
-  opacity: 0.55;
-  transform: translateY(0);
-  height: 26vh;
-}
-
-.hero__hills--near {
-  z-index: 3;
-  height: 16vh;
-}
-
-.hero__embers {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  width: 100%;
-  height: 100%;
-}
-
-/* ==========================================================================
    SOL / LLAMA INTERACTIVA
    ========================================================================== */
 
@@ -54,226 +6,166 @@
   position: absolute;
   top: 16%;
   right: 8%;
+
   width: min(40vw, 400px);
+
   z-index: 2;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 16px;
+
   will-change: transform;
 }
 
-/* Botón */
+/* ==========================================================================
+   BOTÓN
+   ========================================================================== */
+
 .hero__sun-btn {
+  position: relative;
+
+  display: grid;
+  place-items: center;
+
+  width: 100%;
+
   background: none;
   border: none;
   padding: 0;
+  margin: 0;
+
   cursor: pointer;
   border-radius: 50%;
-  position: relative;
-  isolation: isolate;
+
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Área de luz alrededor de la llama */
+.hero__sun-btn:focus-visible {
+  outline: 3px solid var(--cream);
+  outline-offset: 8px;
+}
+
+/* ==========================================================================
+   HALO DE LUZ
+   ========================================================================== */
+
 .hero__sun-btn::before {
   content: "";
+
   position: absolute;
-  inset: -30%;
+  inset: -35%;
+
   border-radius: 50%;
+
   background: radial-gradient(
     circle,
-    rgba(255, 217, 140, 0.65) 0%,
-    rgba(245, 116, 29, 0.22) 45%,
-    rgba(245, 116, 29, 0) 72%
+    rgba(255, 217, 140, 0.75) 0%,
+    rgba(245, 116, 29, 0.35) 35%,
+    rgba(245, 116, 29, 0.12) 55%,
+    rgba(245, 116, 29, 0) 75%
   );
+
   opacity: 0;
+
   transform: scale(0.75);
-  z-index: -1;
+
   pointer-events: none;
-}
-
-/* Luz intensa cuando está encendida */
-.hero__sun-btn.is-on::before {
-  opacity: 1;
-  transform: scale(1);
-  animation: glowPulse 3s ease-in-out infinite;
-}
-
-/* Estado apagado */
-.hero__sun-btn.is-off::before {
-  opacity: 0;
-  animation: none;
-}
-
-/* Imagen / llama */
-.hero__sun {
-  width: 100%;
-  opacity: 0;
-
-  animation:
-    sunRise 1.3s cubic-bezier(0.22, 0.9, 0.32, 1) 0.2s forwards;
-
-  position: relative;
-  z-index: 1;
-
-  transform-origin: center bottom;
 
   transition:
-    transform 0.5s cubic-bezier(0.2, 1.6, 0.4, 1),
-    filter 0.35s ease,
-    opacity 0.35s ease;
+    opacity 0.6s ease,
+    transform 0.8s ease;
 }
 
-/* Hover */
-.hero__sun-btn:hover .hero__sun {
-  transform: scale(1.04);
+/* ==========================================================================
+   SOL / LLAMA
+   ========================================================================== */
+
+.hero__sun {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  position: relative;
+  z-index: 2;
+
+  opacity: 1;
+
+  transform: translateY(0) scale(1);
+
+  transition:
+    transform 0.45s cubic-bezier(0.2, 1.4, 0.4, 1),
+    opacity 0.4s ease,
+    filter 0.4s ease;
 }
 
-/* Encendida */
+/* ==========================================================================
+   ESTADO ENCENDIDO
+   ========================================================================== */
+
+.hero__sun-btn.is-on::before {
+  opacity: 1;
+
+  transform: scale(1);
+
+  animation: glowPulse 4s ease-in-out infinite;
+}
+
 .hero__sun-btn.is-on .hero__sun {
-  filter:
-    brightness(1.12)
-    drop-shadow(0 0 10px rgba(255, 217, 140, 0.45));
+  opacity: 1;
+
+  animation: flameBreath 3s ease-in-out infinite;
 }
 
-/* Llama apagada */
+/* ==========================================================================
+   HOVER
+   ========================================================================== */
+
+.hero__sun-btn:hover .hero__sun {
+  transform: scale(1.045);
+}
+
+/* ==========================================================================
+   ESTADO APAGADO
+   ========================================================================== */
+
+.hero__sun-btn.is-off::before {
+  opacity: 0;
+
+  transform: scale(0.65);
+}
+
 .hero__sun-btn.is-off .hero__sun {
-  filter: brightness(0.55);
-  opacity: 0.72;
+  opacity: 0.22;
+
+  filter:
+    brightness(0.55)
+    saturate(0.7);
+
+  transform: scale(0.88);
 }
 
-/* Animación especial al encender */
+/* ==========================================================================
+   ANIMACIÓN AL ENCENDER
+   ========================================================================== */
+
 .hero__sun-btn.is-igniting .hero__sun {
   animation: ignitePulse 0.7s ease;
 }
 
-/* Animación especial al apagar */
+/* ==========================================================================
+   ANIMACIÓN AL APAGAR
+   ========================================================================== */
+
 .hero__sun-btn.is-extinguishing .hero__sun {
-  animation: extinguishPulse 0.45s ease;
-}
-
-/* Estado activo: pequeña respiración de la llama */
-.hero__sun-btn.is-on .hero__sun {
-  animation:
-    flameBreath 2.8s ease-in-out infinite;
+  animation: extinguishPulse 0.5s ease;
 }
 
 /* ==========================================================================
-   INDICADOR / TEXTO
+   RESPIRACIÓN DE LA LLAMA
    ========================================================================== */
-
-.hero__sun-hint {
-  font-size: 0.82rem;
-  color: rgba(255, 246, 236, 0.75);
-  letter-spacing: 0.02em;
-  opacity: 0;
-
-  animation:
-    riseIn 1s ease 1.5s forwards;
-
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s ease;
-}
-
-/* Cambia ligeramente cuando está encendido */
-.hero__sun-btn.is-on + .hero__sun-hint {
-  color: rgba(255, 246, 236, 0.92);
-}
-
-/* ==========================================================================
-   RIPPLE — onda al hacer clic
-   ========================================================================== */
-
-.ripple {
-  position: absolute;
-  border-radius: 50%;
-  border: 2px solid rgba(255, 246, 236, 0.85);
-
-  left: 50%;
-  top: 50%;
-
-  width: 20px;
-  height: 20px;
-
-  transform: translate(-50%, -50%);
-
-  pointer-events: none;
-
-  animation:
-    rippleOut 0.9s ease-out forwards;
-
-  z-index: 5;
-}
-
-/* Segunda onda */
-.ripple:nth-of-type(2) {
-  animation-delay: 0.12s;
-  opacity: 0.5;
-}
-
-/* ==========================================================================
-   ANIMACIONES
-   ========================================================================== */
-
-@keyframes rippleOut {
-  from {
-    width: 20px;
-    height: 20px;
-    opacity: 0.9;
-  }
-
-  to {
-    width: 340%;
-    height: 340%;
-    opacity: 0;
-  }
-}
-
-@keyframes ignitePulse {
-  0% {
-    filter: brightness(1);
-    transform: scale(0.94);
-  }
-
-  35% {
-    filter:
-      brightness(1.6)
-      drop-shadow(0 0 24px rgba(255, 217, 140, 0.85));
-
-    transform: scale(1.12);
-  }
-
-  65% {
-    transform: scale(0.98);
-  }
-
-  100% {
-    filter:
-      brightness(1.12)
-      drop-shadow(0 0 10px rgba(255, 217, 140, 0.45));
-
-    transform: scale(1);
-  }
-}
-
-@keyframes extinguishPulse {
-  0% {
-    filter: brightness(1.12);
-    transform: scale(1);
-  }
-
-  45% {
-    filter: brightness(0.35);
-    transform: scale(0.9);
-  }
-
-  100% {
-    filter: brightness(0.55);
-    transform: scale(1);
-  }
-}
 
 @keyframes flameBreath {
   0%,
@@ -286,6 +178,10 @@
   }
 }
 
+/* ==========================================================================
+   PULSO DEL HALO
+   ========================================================================== */
+
 @keyframes glowPulse {
   0%,
   100% {
@@ -296,6 +192,154 @@
   50% {
     opacity: 1;
     transform: scale(1.04);
+  }
+}
+
+/* ==========================================================================
+   ENCENDER
+   ========================================================================== */
+
+@keyframes ignitePulse {
+  0% {
+    opacity: 1;
+
+    filter: brightness(1);
+
+    transform: scale(0.94);
+  }
+
+  35% {
+    opacity: 1;
+
+    filter:
+      brightness(1.6)
+      drop-shadow(
+        0 0 24px rgba(255, 217, 140, 0.85)
+      );
+
+    transform: scale(1.12);
+  }
+
+  65% {
+    transform: scale(0.98);
+  }
+
+  100% {
+    opacity: 1;
+
+    filter:
+      brightness(1.12)
+      drop-shadow(
+        0 0 10px rgba(255, 217, 140, 0.45)
+      );
+
+    transform: scale(1);
+  }
+}
+
+/* ==========================================================================
+   APAGAR
+   ========================================================================== */
+
+@keyframes extinguishPulse {
+  0% {
+    opacity: 1;
+
+    filter: brightness(1.12);
+
+    transform: scale(1);
+  }
+
+  45% {
+    opacity: 0.7;
+
+    filter: brightness(0.35);
+
+    transform: scale(0.9);
+  }
+
+  100% {
+    opacity: 0.22;
+
+    filter:
+      brightness(0.55)
+      saturate(0.7);
+
+    transform: scale(0.88);
+  }
+}
+
+/* ==========================================================================
+   RIPPLE — ONDA AL HACER CLIC
+   ========================================================================== */
+
+.ripple {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 20px;
+  height: 20px;
+
+  border:
+    2px solid rgba(255, 246, 236, 0.85);
+
+  border-radius: 50%;
+
+  transform: translate(-50%, -50%);
+
+  pointer-events: none;
+
+  z-index: 5;
+
+  animation: rippleOut 0.9s ease-out forwards;
+}
+
+@keyframes rippleOut {
+  from {
+    width: 20px;
+    height: 20px;
+
+    opacity: 0.9;
+  }
+
+  to {
+    width: 340%;
+    height: 340%;
+
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   TEXTO DE AYUDA
+   ========================================================================== */
+
+.hero__sun-hint {
+  font-size: 0.82rem;
+
+  color: rgba(255, 246, 236, 0.75);
+
+  letter-spacing: 0.02em;
+
+  opacity: 0;
+
+  animation:
+    riseIn 1s ease 1.5s forwards;
+}
+
+/* ==========================================================================
+   ACCESIBILIDAD
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__sun,
+  .hero__sun-btn::before,
+  .hero__sun-hint,
+  .ripple {
+    animation: none;
+    transition: none;
   }
 }
 
@@ -475,21 +519,6 @@
   }
 }
 
-@keyframes sunRise {
-  from {
-    opacity: 0;
-    transform:
-      translateY(30px)
-      scale(0.85);
-  }
-
-  to {
-    opacity: 1;
-    transform:
-      translateY(0)
-      scale(1);
-  }
-}
 
 /* ==========================================================================
    ACCESIBILIDAD
