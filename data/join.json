@@ -1,0 +1,17 @@
+{
+  "heading": "Esto no se ve desde afuera. Se vive adentro.",
+  "description": "Síguenos, entérate del próximo encuentro y súmate a una comunidad que prefiere arder antes que apagarse.",
+  "actions": [
+    {
+      "label": "Síguenos en Instagram",
+      "href": "https://www.instagram.com/awakenxthexworld",
+      "variant": "solid"
+    },
+    {
+      "label": "Ver todos los enlaces",
+      "href": "https://tr.ee/AlkXuUsyl-",
+      "variant": "ghost"
+    }
+  ],
+  "handle": "@awakenxthexworld"
+}

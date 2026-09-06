@@ -1,0 +1,13 @@
+{
+  "kickerPrefix": "encendiendo",
+  "cyclerWords": ["la fe", "el fuego", "tu propósito", "la comunidad", "una generación"],
+  "cyclerIntervalMs": 2600,
+  "titleLines": ["Hay una generación", "que no se apaga."],
+  "subtitle": "Awaken es un movimiento de jóvenes que decidieron dejar de fingir y empezar a arder. Fe real, comunidad real, sin fórmulas ni máscaras.",
+  "actions": [
+    { "label": "Únete al movimiento", "href": "#unete", "variant": "solid" },
+    { "label": "Conoce las comunidades", "href": "#comunidades", "variant": "ghost" }
+  ],
+  "sunHint": "toca para encender",
+  "sunAriaLabel": "Toca para encender"
+}

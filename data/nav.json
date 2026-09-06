@@ -1,0 +1,9 @@
+{
+  "brand": "Awaken",
+  "links": [
+    { "label": "El movimiento", "href": "#movimiento" },
+    { "label": "Comunidades", "href": "#comunidades" },
+    { "label": "Encuentros", "href": "#encuentros" },
+    { "label": "Únete", "href": "#unete" }
+  ]
+}

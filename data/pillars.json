@@ -1,0 +1,30 @@
+{
+  "heading": "Cuatro formas de encender el mismo fuego",
+  "description": "Awaken no es un evento, es un ecosistema. Cada frente existe para que la llama llegue a un lugar distinto.",
+  "items": [
+    {
+      "title": "AW Pereira",
+      "description": "Nuestra casa. Encuentros semanales en Pereira, el lugar donde todo comenzó.",
+      "flameHeightPx": 150,
+      "gradientId": "g1"
+    },
+    {
+      "title": "Ayuda Social",
+      "description": "Manos que sirven. Jornadas de apoyo a quienes más lo necesitan en la ciudad.",
+      "flameHeightPx": 110,
+      "gradientId": "g2"
+    },
+    {
+      "title": "Misiones",
+      "description": "El fuego viaja. Llevamos el movimiento a otras ciudades y fronteras.",
+      "flameHeightPx": 180,
+      "gradientId": "g3"
+    },
+    {
+      "title": "Donaciones",
+      "description": "Siembra con nosotros. Cada aporte sostiene un espacio más encendido.",
+      "flameHeightPx": 88,
+      "gradientId": "g4"
+    }
+  ]
+}

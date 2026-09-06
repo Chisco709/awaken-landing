@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Logo de Awaken">
+  <circle cx="50" cy="50" r="47" fill="white" stroke="#F5741D" stroke-width="3"/>
+  <path d="M50 18 L76 48 L24 48 Z" fill="#F5741D"/>
+  <path d="M50 82 L76 52 L24 52 Z" fill="#F5741D"/>
+</svg>

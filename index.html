@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Awaken — Una generación que no se apaga</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='47' fill='white' stroke='%23F5741D' stroke-width='3'/%3E%3Cpath d='M50 18 L76 48 L24 48 Z' fill='%23F5741D'/%3E%3Cpath d='M50 82 L76 52 L24 52 Z' fill='%23F5741D'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="./css/base.css">
+<link rel="stylesheet" href="./css/nav.css">
+<link rel="stylesheet" href="./css/hero.css">
+<link rel="stylesheet" href="./css/sections.css">
+<link rel="stylesheet" href="./css/responsive.css">
+</head>
+<body>
+
+  <!-- NAV (contenido inyectado por js/modules/render.js desde data/nav.json) -->
+  <nav class="nav wrap nav__row" id="nav"></nav>
+
+  <!-- MENÚ MÓVIL -->
+  <div class="mobile-menu" id="mobileMenu"></div>
+
+  <!-- HERO -->
+  <header class="hero" id="heroSection">
+
+    <img class="hero__hills hero__hills--far" src="./assets/icons/hills-far.svg" alt="" aria-hidden="true">
+
+    <canvas class="hero__embers" id="emberCanvas"></canvas>
+
+    <div class="hero__sun-parallax" id="sunParallax">
+      <button class="hero__sun-btn" id="sunBtn" aria-label="Toca para encender">
+        <img class="hero__sun" src="./assets/icons/sun.svg" alt="">
+      </button>
+      <span class="hero__sun-hint" id="sunHint">toca para encender</span>
+    </div>
+
+    <img class="hero__hills hero__hills--near" src="./assets/icons/hills-near.svg" alt="" aria-hidden="true">
+
+    <div class="hero__content-parallax" id="contentParallax">
+      <div class="wrap hero__grid">
+        <div class="hero__copy" id="heroCopy"></div>
+      </div>
+    </div>
+
+    <div class="hero__scroll" aria-hidden="true"></div>
+  </header>
+
+  <!-- MANIFESTO (data/manifesto.json) -->
+  <section class="manifesto" id="movimiento">
+    <div class="wrap manifesto__inner" id="manifesto"></div>
+  </section>
+
+  <!-- PILLARS / COMUNIDADES (data/pillars.json) -->
+  <section class="pillars" id="comunidades">
+    <div class="wrap">
+      <div class="pillars__head" id="pillarsHead"></div>
+      <div class="flames" id="pillarsList"></div>
+    </div>
+  </section>
+
+  <!-- STATS (data/stats.json) -->
+  <section class="stats">
+    <div class="wrap stats__grid" id="statsGrid"></div>
+  </section>
+
+  <!-- ENCUENTROS (data/encounters.json) -->
+  <section class="encounters wrap" id="encuentros">
+    <div class="encounters__copy" id="encounters"></div>
+    <div class="encounters__art"></div>
+  </section>
+
+  <!-- JOIN / ÚNETE (data/join.json) -->
+  <section class="join" id="unete">
+    <div class="wrap join__inner" id="join"></div>
+  </section>
+
+  <!-- FOOTER (data/site.json) -->
+  <footer class="site-footer">
+    <div class="wrap site-footer__row" id="footer"></div>
+  </footer>
+
+  <noscript>
+    <p style="padding:24px;text-align:center;font-family:sans-serif;">
+      Este sitio necesita JavaScript habilitado para mostrar su contenido.
+    </p>
+  </noscript>
+
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>

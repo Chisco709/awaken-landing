@@ -1,0 +1,13 @@
+{
+  "name": "awaken-landing",
+  "version": "1.0.0",
+  "description": "Landing page del movimiento Awaken — Pereira, Colombia.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "npx --yes http-server . -p 8080 -c-1",
+    "serve": "npm run start"
+  },
+  "keywords": ["awaken", "landing-page", "html", "css", "javascript"],
+  "license": "MIT"
+}
